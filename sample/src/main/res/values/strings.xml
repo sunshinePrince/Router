@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Router</string>
+    <string name="to_production_list">to production list</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="login">login</string>
+    <string name="to_userinfo">to userInfo</string>
+    <string name="to_trade">to trade</string>
+    <string name="logout">logout</string>
+    <string name="open_photos">open photos</string>
+    <string name="user_info">userInfo</string>
+    <string name="to_userinfo_sticky">to userinfo sticky</string>
+    <string name="config_default">default config</string>
+    <string name="config_login_json">json login config</string>
+    <string name="config_vip_json">json vip config</string>
+    <string name="start_activities">open activities</string>
+    <string name="register">register</string>
+    <string name="h5">h5</string>
+</resources>

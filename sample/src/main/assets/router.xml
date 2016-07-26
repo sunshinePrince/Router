@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<router
+    package="com.fengjr.sample"
+    scheme="fengjr"
+    version="1">
+
+    <!-- packages -->
+    <package name="activities" id="1"/>
+    <package name="user" id="2" pid="1"/>
+    <package name="production" id="3" pid="1"/>
+    <package name="interceptors" id="4"/>
+    <package name="user" id="5" pid="4"/>
+
+    <!-- interceptors -->
+    <interceptor name="login" class="5$LoginInterceptor"/>
+    <interceptor name="balance" class="4$BalanceInterceptor"/>
+
+
+    <!-- actions -->
+    <action name="openCamera" action="android.media.action.IMAGE_CAPTURE"/>
+    <action name="openPhotos" action="android.intent.action.PICK"/>
+    <action name="toUserInfo" sticky="true" to="2$UserInfoActivity">
+        <interceptor name="login"/>
+    </action>
+    <action name="toLogin" inStack="false" to="2$LoginActivity"/>
+    <action name="toRegister" to="2$RegisterActivity"/>
+    <action name="buy" from="3$ProductionActivity" to="production">
+        <interceptor name="login"/>
+        <interceptor name="balance"/>
+    </action>
+
+</router>

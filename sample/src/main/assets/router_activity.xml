@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<activities
+    package="com.fengjr.sample.activities">
+
+    <activity name="main"/>
+    <activity name="login"/>
+    <activity name="register"/>
+    <activity name="userInfo"/>
+    <activity name="productionList"/>
+    <activity name="production"/>
+    <activity name="trade"/>
+
+
+
+</activities>
