@@ -91,6 +91,12 @@ public class URIParser {
 	}
 
 
+	public static String getUrl(String uriStr){
+		Uri uri = Uri.parse(uriStr);
+		return uri.getQueryParameter("url");
+	}
+
+
 
 
 }

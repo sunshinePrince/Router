@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.fengjr.sample.R;
+import com.sunshineprince.router.Router;
 
 /**
  * author : sunny
@@ -74,7 +75,7 @@ public class BrowserActivity extends BaseActivity {
 			webView.post(new Runnable() {
 				@Override
 				public void run() {
-					// TODO: 16/7/26
+//					Log.d(TAG,"url:"+url);
 				}
 			});
 		}
@@ -84,7 +85,7 @@ public class BrowserActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			// TODO: 16/7/26
+			Router.builder(BrowserActivity.this).uri(url).start();
 			return true;
 		}
 

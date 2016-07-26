@@ -36,7 +36,7 @@ import java.util.List;
 
 /**
  * router
- * <p/>
+ * <p>
  * <pre>
  * scheme://host/biz?data={name:sunny}&result=1&sticky=0&url=xxx?cascade=1
  *
@@ -56,8 +56,8 @@ import java.util.List;
  *
  *
  * </pre>
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * author : sunny
  * email : zicai346@gmail.com
  * github : https://github.com/sunshinePrince
@@ -115,11 +115,11 @@ public class Router {
 	 * @return a {@link PostActivityStarter} instance to provide starter methods
 	 */
 	public PostActivityStarter start() {
+		if (!TextUtils.isEmpty(mBuilder.mUri)) {
+			parseUri();
+		}
 		if (checkIntercept(mRouterConfig, mContext)) {
 			return new PostActivityStarter(mContext);
-		}
-		if(!TextUtils.isEmpty(mBuilder.mUri)){
-//			mBuilder.m
 		}
 		String action = getAction(mRouterConfig);
 		String className = getClassName(mRouterConfig);
@@ -143,6 +143,17 @@ public class Router {
 		}
 		startActivity(intent);
 		return new PostActivityStarter(mContext);
+	}
+
+	private void parseUri() {
+		String host = URIParser.getHost(mBuilder.mUri);
+		if (!TextUtils.isEmpty(host)) {
+			mBuilder.mHost = host;
+		}
+		String scheme = URIParser.getScheme(mBuilder.mUri);
+		if (!TextUtils.isEmpty(scheme)) {
+			mBuilder.mScheme = scheme;
+		}
 	}
 
 
@@ -197,7 +208,7 @@ public class Router {
 							return true;
 						}
 					} catch (Exception e) {
-						Log.e(TAG,e.getMessage(),e);
+						Log.e(TAG, e.getMessage(), e);
 					}
 				}
 			}
@@ -229,9 +240,10 @@ public class Router {
 			if (TextUtils.isEmpty(id)) {
 				result = mBuilder.mHost;
 			} else {
-				Package pg = config.getPackageById(id);
-				if (null != pg && !TextUtils.isEmpty(pg.name)) {
-					result = URIParser.getClassName(pg.name, mBuilder.mHost);
+				String packageName = config.getPackageNameById(id);
+				if (!TextUtils.isEmpty(packageName)) {
+					result = URIParser.getClassName(packageName,
+							URIParser.getSimpleName(mBuilder.mHost));
 				}
 			}
 		} else if (!TextUtils.isEmpty(mBuilder.mAction) && null != config) {
@@ -249,6 +261,9 @@ public class Router {
 					}
 				}
 			}
+		}
+		if (!TextUtils.isEmpty(result) && !result.endsWith("Activity")) {
+			result = result + "Activity";
 		}
 		return result;
 	}
@@ -312,6 +327,8 @@ public class Router {
 		private Context mContext;
 
 		private int mRequestCode = -1;
+
+		private String mScheme;
 
 		private String mData;
 

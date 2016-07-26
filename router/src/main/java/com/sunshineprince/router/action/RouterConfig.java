@@ -33,15 +33,13 @@ import java.util.HashMap;
  */
 public class RouterConfig {
 
-
 	public static final String ROUTER = "router";
-
 
 	public static final String PACKAGE = "package";
 
-
 	public static final String VERSION = "version";
 
+	public static final String SCHEME = "scheme";
 
 	public static final String ACTION = "action";
 
@@ -51,6 +49,8 @@ public class RouterConfig {
 	public String mPackage;
 
 	public String versionCode;
+
+	public String scheme;
 
 	public HashMap<String, Package> packages = new HashMap<>();
 

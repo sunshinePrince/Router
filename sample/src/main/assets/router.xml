@@ -19,12 +19,12 @@
     <!-- actions -->
     <action name="openCamera" action="android.media.action.IMAGE_CAPTURE"/>
     <action name="openPhotos" action="android.intent.action.PICK"/>
-    <action name="toUserInfo" sticky="true" to="2$UserInfoActivity">
+    <action name="toUserInfo" sticky="true" to="2$UserInfo">
         <interceptor name="login"/>
     </action>
-    <action name="toLogin" inStack="false" to="2$LoginActivity"/>
-    <action name="toRegister" to="2$RegisterActivity"/>
-    <action name="buy" from="3$ProductionActivity" to="production">
+    <action name="toLogin" inStack="false" to="2$Login"/>
+    <action name="toRegister" to="2$Register"/>
+    <action name="buy" from="3$Production" to="production">
         <interceptor name="login"/>
         <interceptor name="balance"/>
     </action>

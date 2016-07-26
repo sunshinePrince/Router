@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.fengjr.sample.R;
 import com.fengjr.sample.activities.user.LoginActivity;
+import com.fengjr.sample.activities.user.RegisterActivity;
+import com.fengjr.sample.activities.user.UserInfoActivity;
 import com.fengjr.sample.constants.ActionConstants;
 import com.fengjr.sample.interceptors.user.LoginInterceptor;
 import com.sunshineprince.router.Router;
@@ -83,10 +85,11 @@ public class MainActivity extends BaseActivity {
 
 
 	public void onUserInfoClick(View view) {
-		//				Router.builder(this).host("com.fengjr.sample.activities.user.UserInfoActivity").interceptor(new LoginInterceptor(this)).startActivity();
+		Router.builder(this).host("com.fengjr.sample.activities.user.UserInfoActivity").interceptor(
+				new LoginInterceptor(this)).start();
 		Router.builder(this).packageName("com.fengjr.sample.activities.user").host(
 				"UserInfoActivity").interceptor(new LoginInterceptor(this)).start();
-		//				Router.builder(this).action(ActionConstants.TO_USER_INFO).startActivity();
+		Router.builder(this).action(ActionConstants.TO_USER_INFO).start();
 	}
 
 
@@ -102,28 +105,24 @@ public class MainActivity extends BaseActivity {
 
 
 	public void onTradeClick(View view) {
-		Intent intent = new Intent(this, LoginActivity.class);
-		startActivity(intent);
+
+
 	}
 
 
-
-
-	public void onStartActivitiesClick(View view){
-		Intent intent1 = new Intent(this,LoginActivity.class);
-		Intent intent2 = new Intent(this,LoginActivity.class);
-		Intent intent3 = new Intent(this,LoginActivity.class);
-		Intent[] intents = new Intent[]{intent1,intent2,intent3};
+	public void onStartActivitiesClick(View view) {
+		Intent intent1 = new Intent(this, LoginActivity.class);
+		Intent intent2 = new Intent(this, RegisterActivity.class);
+		Intent intent3 = new Intent(this, UserInfoActivity.class);
+		Intent[] intents = new Intent[]{intent1, intent2, intent3};
 		startActivities(intents);
 	}
 
 
-	public void onH5Click(View view){
-		Router.builder(this).packageId("1").host("BrowserActivity").start();
+	public void onH5Click(View view) {
+		//		Router.builder(this).packageId("1").host("BrowserActivity").start();
+		Router.builder(this).host("1$BrowserActivity").start();
 	}
-
-
-
 
 
 	@Override
