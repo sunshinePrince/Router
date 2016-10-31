@@ -41,7 +41,9 @@ public class RouterConfig {
 
 	public static final String SCHEME = "scheme";
 
-	public static final String ACTION = "action";
+	public static final String ACTION = "target";
+
+	public static final String PAGE = "page";
 
 	public static final String INTERCEPTOR = "interceptor";
 
@@ -58,9 +60,18 @@ public class RouterConfig {
 
 	public HashMap<String, String> interceptors = new HashMap<>();
 
+	public HashMap<String, Page> pages = new HashMap<>();
+
+
+
 
 	public Action getActionByName(String name) {
 		return actions.get(name);
+	}
+
+
+	public Page getPageByName(String name){
+		return pages.get(name);
 	}
 
 

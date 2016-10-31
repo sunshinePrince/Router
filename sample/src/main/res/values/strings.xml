@@ -6,14 +6,22 @@
     <string name="login">login</string>
     <string name="to_userinfo">to userInfo</string>
     <string name="to_trade">to trade</string>
+    <string name="for_result">startActivityForResult</string>
     <string name="logout">logout</string>
     <string name="open_photos">open photos</string>
     <string name="user_info">userInfo</string>
     <string name="to_userinfo_sticky">to userinfo sticky</string>
     <string name="config_default">default config</string>
-    <string name="config_login_json">json login config</string>
-    <string name="config_vip_json">json vip config</string>
+    <string name="config_login_json">login interceptor config</string>
+    <string name="config_vip_json">login h5 config</string>
     <string name="start_activities">open activities</string>
     <string name="register">register</string>
     <string name="h5">h5</string>
+    <string name="production_list">productionList</string>
+    <string name="production">production</string>
+    <string name="buy">buy</string>
+    <string name="buy_result">buyResult</string>
+    <string name="topup">Top UP</string>
+    <string name="top_up_amount">top-up amount</string>
+    <string name="top_up">top-up</string>
 </resources>

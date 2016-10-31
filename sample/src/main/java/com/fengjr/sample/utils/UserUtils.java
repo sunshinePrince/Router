@@ -32,10 +32,19 @@ public class UserUtils {
 
 	private static final String USERNAME = "username";
 
+	private static final String BALANCE = "balance";
+
 	public static void saveUser(Context context,String username){
 		SharedPreferences sp = getSharedPreferences(context);
 		sp.edit().putString(USERNAME,username).apply();
 	}
+
+
+	public static void saveMoney(Context context,int money){
+		SharedPreferences sp = getSharedPreferences(context);
+		sp.edit().putInt(BALANCE,money).apply();
+	}
+
 
 	private static SharedPreferences getSharedPreferences(Context context) {
 		return context.getSharedPreferences(USER_INFO, Context.MODE_PRIVATE);
@@ -48,6 +57,12 @@ public class UserUtils {
 	}
 
 
+	public static int getBalance(Context context){
+		SharedPreferences sp = getSharedPreferences(context);
+		return sp.getInt(BALANCE,0);
+	}
+
+
 
 	public static boolean isLogin(Context context){
 		SharedPreferences sp = getSharedPreferences(context);
@@ -55,9 +70,16 @@ public class UserUtils {
 	}
 
 
+	public static boolean hasEnoughMoney(Context context,int money){
+		int balance = getBalance(context);
+		return balance >= money;
+	}
+
+
+
 	public static void logout(Context context){
 		SharedPreferences sp = getSharedPreferences(context);
-		sp.edit().remove(USERNAME).apply();
+		sp.edit().remove(USERNAME).remove(BALANCE).apply();
 	}
 
 

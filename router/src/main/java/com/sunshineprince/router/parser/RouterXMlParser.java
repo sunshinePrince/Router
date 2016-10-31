@@ -21,6 +21,7 @@ import android.util.Xml;
 
 import com.sunshineprince.router.action.Action;
 import com.sunshineprince.router.action.Package;
+import com.sunshineprince.router.action.Page;
 import com.sunshineprince.router.action.RouterConfig;
 import com.sunshineprince.router.interceptor.Interceptor;
 
@@ -83,7 +84,10 @@ public class RouterXMlParser implements RouterParser<RouterConfig> {
 							}
 							break;
 						case RouterConfig.ACTION:
-							parserAction(parser, routerConfig);
+							parseAction(parser, routerConfig);
+							break;
+						case RouterConfig.PAGE:
+							parsePage(parser,routerConfig);
 							break;
 						case RouterConfig.INTERCEPTOR:
 							for (int i = 0; i < parser.getAttributeCount(); i++) {
@@ -126,13 +130,13 @@ public class RouterXMlParser implements RouterParser<RouterConfig> {
 
 
 	/**
-	 * parse action
+	 * parse target
 	 *
 	 * @param parser       XmlPullParser
 	 * @param routerConfig {@link RouterConfig}
 	 * @throws Exception
 	 */
-	private void parserAction(XmlPullParser parser, RouterConfig routerConfig) throws Exception {
+	private void parseAction(XmlPullParser parser, RouterConfig routerConfig) throws Exception {
 		int eventType = parser.getEventType();
 		Action action = new Action();
 		String interceptorName = null;
@@ -190,6 +194,66 @@ public class RouterXMlParser implements RouterParser<RouterConfig> {
 			eventType = parser.next();
 		}
 		routerConfig.actions.put(action.name, action);
+	}
+
+
+
+
+	private void parsePage(XmlPullParser parser, RouterConfig routerConfig) throws Exception {
+		int eventType = parser.getEventType();
+		Page page = new Page();
+		String interceptorName = null;
+		String interceptorClass = null;
+		while (!(eventType == XmlPullParser.END_TAG && RouterConfig.PAGE.equals(
+				parser.getName()))) {
+			switch (eventType) {
+				case XmlPullParser.START_TAG:
+					switch (parser.getName()) {
+						case RouterConfig.PAGE:
+							for (int i = 0; i < parser.getAttributeCount(); i++) {
+								switch (parser.getAttributeName(i)) {
+									case Page.NAME:
+										page.name = parser.getAttributeValue(i);
+										break;
+									case Page.CLASS:
+										page.className = parser.getAttributeValue(i);
+										break;
+									case Page.FORWARD:
+										page.forward = parser.getAttributeValue(i);
+										break;
+								}
+							}
+							break;
+						case RouterConfig.INTERCEPTOR:
+							for (int i = 0; i < parser.getAttributeCount(); i++) {
+								switch (parser.getAttributeName(i)) {
+									case Interceptor.NAME:
+										interceptorName = parser.getAttributeValue(i);
+										break;
+									case Interceptor.CLASS:
+										interceptorClass = parser.getAttributeValue(i);
+										break;
+								}
+							}
+							break;
+					}
+					break;
+				case XmlPullParser.END_TAG:
+					switch (parser.getName()) {
+						case RouterConfig.INTERCEPTOR:
+							if (null != interceptorName) {
+								page.interceptors.add(interceptorName);
+								if(null != interceptorClass){
+									routerConfig.interceptors.put(interceptorName, interceptorClass);
+								}
+							}
+							break;
+					}
+					break;
+			}
+			eventType = parser.next();
+		}
+		routerConfig.pages.put(page.name,page);
 	}
 
 

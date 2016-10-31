@@ -19,6 +19,9 @@ package com.sunshineprince.router.parser;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * author : sunny
  * email : zicai346@gmail.com
@@ -63,39 +66,60 @@ public class URIParser {
 	}
 
 
-
-
-	public static String getScheme(String uriStr){
+	public static String getScheme(String uriStr) {
 		Uri uri = Uri.parse(uriStr);
 		return uri.getScheme();
 	}
 
 
-
-	public static String getHost(String uriStr){
+	public static String getHost(String uriStr) {
 		Uri uri = Uri.parse(uriStr);
 		return uri.getHost();
 	}
 
 
-	public static String getAction(String uriStr){
-		Uri uri = Uri.parse(uriStr);
-		return uri.getQueryParameter("action");
-	}
 
-
-
-	public static String getData(String uriStr){
+	public static String getData(String uriStr) {
 		Uri uri = Uri.parse(uriStr);
 		return uri.getQueryParameter("data");
 	}
 
 
-	public static String getUrl(String uriStr){
+	public static String getUrl(String uriStr) {
 		Uri uri = Uri.parse(uriStr);
 		return uri.getQueryParameter("url");
 	}
 
+
+	public static String getQueryForward(String uri) {
+		String result = null;
+		int index = uri.indexOf("?");
+		if (index >= 0) {
+			result = uri.substring(0, index);
+		}
+		return result;
+	}
+
+
+	public static String getQueryAfter(String uri){
+		String result = null;
+		int index = uri.indexOf("?");
+		if (index >= 0 && uri.length()>index+1) {
+			result = uri.substring(index+1, uri.length());
+		}
+		return result;
+	}
+
+
+	public static String getParamByRegex(String uri,String paramName){
+		Pattern pattern = Pattern.compile(paramName+"=\\s*(.*)");
+		Matcher matcher = pattern.matcher(uri);
+		String value = null;
+		if (matcher.find()){
+			value = matcher.group(1);
+		}
+		return value;
+	}
 
 
 

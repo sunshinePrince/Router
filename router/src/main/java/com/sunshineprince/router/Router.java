@@ -24,6 +24,7 @@ import android.util.Log;
 
 import com.sunshineprince.router.action.Action;
 import com.sunshineprince.router.action.Package;
+import com.sunshineprince.router.action.Page;
 import com.sunshineprince.router.action.RouterConfig;
 import com.sunshineprince.router.builder.PostActivityStarter;
 import com.sunshineprince.router.interceptor.Interceptor;
@@ -32,6 +33,7 @@ import com.sunshineprince.router.parser.URIParser;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -74,6 +76,10 @@ public class Router {
 
 	public static final String URI_IN_STACK = "router_in_stack";
 
+	public static final String EXTRA_DATA = "router_data";
+
+	public static final String EXTRA_URL = "router_url";
+
 	public static RouterConfig mRouterConfig;
 
 	private Context mContext;
@@ -110,16 +116,13 @@ public class Router {
 
 
 	/**
-	 * startActivity this action
+	 * startActivity this target
 	 *
 	 * @return a {@link PostActivityStarter} instance to provide starter methods
 	 */
 	public PostActivityStarter start() {
 		if (!TextUtils.isEmpty(mBuilder.mUri)) {
-			parseUri();
-		}
-		if (checkIntercept(mRouterConfig, mContext)) {
-			return new PostActivityStarter(mContext);
+			parseUri(mBuilder.mUri);
 		}
 		String action = getAction(mRouterConfig);
 		String className = getClassName(mRouterConfig);
@@ -136,24 +139,37 @@ public class Router {
 			intent.setFlags(flags);
 		}
 		if (!TextUtils.isEmpty(data)) {
-			intent.putExtra("", data);
+			intent.putExtra(EXTRA_DATA, data);
 		}
-		if (!checkSticky(className, intent)) {
+		if(!TextUtils.isEmpty(mBuilder.mUrl)){
+			intent.putExtra(EXTRA_URL,mBuilder.mUrl);
+		}
+//		if (!checkSticky(className, intent)) {
+//			return new PostActivityStarter(mContext);
+//		}
+		if (checkIntercept(mRouterConfig, mContext,intent)) {
 			return new PostActivityStarter(mContext);
 		}
 		startActivity(intent);
 		return new PostActivityStarter(mContext);
 	}
 
-	private void parseUri() {
-		String host = URIParser.getHost(mBuilder.mUri);
+	private void parseUri(String uri) {
+		String host = URIParser.getHost(uri);
 		if (!TextUtils.isEmpty(host)) {
-			mBuilder.mHost = host;
+			Page page = mRouterConfig.getPageByName(host);
+			if(null != page){
+				mBuilder.mTarget = page.name;
+			}else{
+				mBuilder.mHost = host;
+			}
 		}
-		String scheme = URIParser.getScheme(mBuilder.mUri);
+		String scheme = URIParser.getScheme(uri);
 		if (!TextUtils.isEmpty(scheme)) {
 			mBuilder.mScheme = scheme;
 		}
+		mBuilder.mData = URIParser.getData(uri);
+		mBuilder.mUrl = URIParser.getUrl(uri);
 	}
 
 
@@ -190,21 +206,21 @@ public class Router {
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean checkIntercept(RouterConfig config, Context context) {
+	private boolean checkIntercept(RouterConfig config, Context context,Intent intent) {
 		if (null != mBuilder.mInterceptors && 0 != mBuilder.mInterceptors.size()) {
 			for (Interceptor interceptor : mBuilder.mInterceptors) {
-				if (interceptor.intercept()) {
+				if (interceptor.intercept(intent)) {
 					return true;
 				}
 			}
-		} else if (!TextUtils.isEmpty(mBuilder.mAction) && null != config) {
-			Action action = config.getActionByName(mBuilder.mAction);
-			if (null != action) {
-				for (String interceptorName : action.interceptors) {
+		} else if (!TextUtils.isEmpty(mBuilder.mTarget) && null != config) {
+			Page page = config.getPageByName(mBuilder.mTarget);
+			if (null != page) {
+				for (String interceptorName : page.interceptors) {
 					try {
 						Interceptor interceptor = config.getInterceptorByName(interceptorName,
 								context);
-						if (interceptor.intercept()) {
+						if (interceptor.intercept(intent)) {
 							return true;
 						}
 					} catch (Exception e) {
@@ -218,9 +234,7 @@ public class Router {
 
 
 	private String getData(RouterConfig config) {
-
-
-		return "";
+		return mBuilder.mData;
 	}
 
 	private int getFlags() {
@@ -236,34 +250,51 @@ public class Router {
 			result = URIParser.getClassName(config.getPackageNameById(mBuilder.mPackageId),
 					mBuilder.mHost);
 		} else if (!TextUtils.isEmpty(mBuilder.mHost) && null != config) {
-			String id = URIParser.getPackageId(mBuilder.mHost);
-			if (TextUtils.isEmpty(id)) {
-				result = mBuilder.mHost;
-			} else {
-				String packageName = config.getPackageNameById(id);
-				if (!TextUtils.isEmpty(packageName)) {
-					result = URIParser.getClassName(packageName,
-							URIParser.getSimpleName(mBuilder.mHost));
+			result = getClassNameFromHost(config,mBuilder.mHost);
+		} else if (!TextUtils.isEmpty(mBuilder.mTarget) && null != config) {
+			Page page = config.getPageByName(mBuilder.mTarget);
+			if(null != page && !TextUtils.isEmpty(page.forward)){
+				String name = URIParser.getQueryForward(page.forward);
+				Page forward = config.getPageByName(name);
+				if(null != forward){
+					result = getClassNameFromHost(config,forward.className);
 				}
-			}
-		} else if (!TextUtils.isEmpty(mBuilder.mAction) && null != config) {
-			Action action = config.getActionByName(mBuilder.mAction);
-			if (null != action && !TextUtils.isEmpty(action.to)) {
-				String id = URIParser.getPackageId(action.to);
+				String url = URIParser.getParamByRegex(page.forward,"url");
+				if(!TextUtils.isEmpty(url)){
+					mBuilder.mUrl = url;
+				}
+				String data = URIParser.getParamByRegex(page.forward,"data");
+				if(!TextUtils.isEmpty(data)){
+					mBuilder.mData = data;
+				}
+			}else if (null != page && !TextUtils.isEmpty(page.className)) {
+				String id = URIParser.getPackageId(page.className);
 				if (TextUtils.isEmpty(id)) {
-					result = action.to;
+					result = page.className;
 				} else {
 					Package pg = config.getPackageById(id);
 					if (null != pg && !TextUtils.isEmpty(pg.name)) {
-						String simpleName = URIParser.getSimpleName(action.to);
+						String simpleName = URIParser.getSimpleName(page.className);
 						String packageName = config.getPackageNameById(id);
 						result = URIParser.getClassName(packageName, simpleName);
 					}
 				}
 			}
 		}
-		if (!TextUtils.isEmpty(result) && !result.endsWith("Activity")) {
-			result = result + "Activity";
+		return result;
+	}
+
+	private String getClassNameFromHost(RouterConfig config,String host) {
+		String result = null;
+		String id = URIParser.getPackageId(host);
+		if (TextUtils.isEmpty(id)) {
+			result = host;
+		} else {
+			String packageName = config.getPackageNameById(id);
+			if (!TextUtils.isEmpty(packageName)) {
+				result = URIParser.getClassName(packageName,
+						URIParser.getSimpleName(host));
+			}
 		}
 		return result;
 	}
@@ -271,12 +302,12 @@ public class Router {
 
 	private String getAction(RouterConfig config) {
 		String result = null;
-		if (!TextUtils.isEmpty(mBuilder.mIntentAction)) {
-			return mBuilder.mIntentAction;
+		if (!TextUtils.isEmpty(mBuilder.mAction)) {
+			return mBuilder.mAction;
 		}
 		if (null != config) {
 			//根据名字找到action
-			Action action = config.getActionByName(mBuilder.mAction);
+			Action action = config.getActionByName(mBuilder.mTarget);
 			if (null != action && !TextUtils.isEmpty(action.action)) {
 				result = action.action;
 			}
@@ -330,6 +361,8 @@ public class Router {
 
 		private String mScheme;
 
+		private HashMap<String,Object> mExtra;
+
 		private String mData;
 
 		private String mHost;
@@ -342,9 +375,9 @@ public class Router {
 
 		private int mFlags = -1;
 
-		private String mAction;
+		private String mTarget;
 
-		private String mIntentAction;
+		private String mAction;
 
 		private boolean mSticky;
 
@@ -353,6 +386,8 @@ public class Router {
 		private boolean cascade;
 
 		private String mUri;
+
+		private String mUrl;
 
 
 		/**
@@ -372,6 +407,14 @@ public class Router {
 			this.mUri = uri;
 			return this;
 		}
+
+
+		public Builder url(String url){
+			this.mUrl = url;
+			return this;
+		}
+
+
 
 		/**
 		 * set packageName
@@ -407,9 +450,18 @@ public class Router {
 		}
 
 		/**
-		 * action
+		 * target
 		 *
-		 * @param action
+		 * @param target
+		 * @return a {@link Builder} instance to chain calls
+		 */
+		public Builder target(String target) {
+			this.mTarget = target;
+			return this;
+		}
+
+		/**
+		 * @param action {@link Intent#setAction(String)}
 		 * @return a {@link Builder} instance to chain calls
 		 */
 		public Builder action(String action) {
@@ -417,14 +469,7 @@ public class Router {
 			return this;
 		}
 
-		/**
-		 * @param intentAction {@link Intent#setAction(String)}
-		 * @return a {@link Builder} instance to chain calls
-		 */
-		public Builder intentAction(String intentAction) {
-			this.mIntentAction = intentAction;
-			return this;
-		}
+
 
 		/**
 		 * @param sticky
@@ -489,6 +534,9 @@ public class Router {
 			return this;
 		}
 
+
+
+
 		/**
 		 * add a {@link Interceptor} in {@link Builder#mInterceptors}
 		 *
@@ -506,7 +554,7 @@ public class Router {
 		}
 
 		/**
-		 * startActivity this action
+		 * startActivity this target
 		 *
 		 * @return a {@link PostActivityStarter} instance to provide starter methods
 		 */

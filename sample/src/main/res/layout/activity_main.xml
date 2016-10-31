@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:onClick="onUserInfoStickyClick"
+            android:visibility="gone"
             android:text="@string/to_userinfo_sticky"
             android:textSize="16sp"/>
 
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:onClick="onTradeClick"
-            android:text="@string/to_trade"
+            android:text="@string/for_result"
             android:textSize="16sp"/>
 
         <Button
@@ -73,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:visibility="gone"
             android:onClick="onStartActivitiesClick"
             android:text="@string/start_activities"
             android:textSize="16sp"/>

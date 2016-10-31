@@ -41,7 +41,9 @@ public class UserInfoActivity extends BaseActivity {
 		setContentView(R.layout.activity_userinfo);
 		setTitle(getString(R.string.user_info));
 		TextView tv_name = (TextView) findViewById(R.id.tv_name);
+		TextView tv_balance = (TextView) findViewById(R.id.tv_balance);
 		tv_name.setText(String.format("hello!%s!",UserUtils.getUsername(UserInfoActivity.this)));
+		tv_balance.setText(String.format("balance : %s",UserUtils.getBalance(this)));
 	}
 
 

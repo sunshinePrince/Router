@@ -17,6 +17,7 @@
 package com.fengjr.sample.interceptors.user;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.fengjr.sample.constants.ActionConstants;
 import com.fengjr.sample.utils.UserUtils;
@@ -38,11 +39,11 @@ public class LoginInterceptor extends Interceptor{
 	}
 
 	@Override
-	public boolean intercept() {
+	public boolean intercept(Intent intent) {
 		if (UserUtils.isLogin(mContext)){
 			return false;
 		}
-		Router.builder(mContext).action(ActionConstants.TO_LOGIN).inStack(false).start();
+		Router.builder(mContext).target(ActionConstants.LOGIN).inStack(false).start();
 		return true;
 	}
 

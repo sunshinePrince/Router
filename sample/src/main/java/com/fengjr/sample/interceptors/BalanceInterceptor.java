@@ -17,7 +17,11 @@
 package com.fengjr.sample.interceptors;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.fengjr.sample.constants.ActionConstants;
+import com.fengjr.sample.utils.UserUtils;
+import com.sunshineprince.router.Router;
 import com.sunshineprince.router.interceptor.Interceptor;
 
 /**
@@ -34,7 +38,12 @@ public class BalanceInterceptor extends Interceptor{
 	}
 
 	@Override
-	public boolean intercept() {
+	public boolean intercept(Intent intent) {
+		int money = 500;
+		if(!UserUtils.hasEnoughMoney(mContext,money)){
+			Router.builder(mContext).target(ActionConstants.TOPUP).start();
+			return true;
+		}
 		return false;
 	}
 }

@@ -64,11 +64,12 @@ public class LoginActivity extends BaseActivity {
 			return;
 		}
 		UserUtils.saveUser(LoginActivity.this, username);
-		Router.builder(this).start();
+		finish();
+//		Router.builder(this).inStack(false).start();
 	}
 
 	public void onRegisterClick(View view) {
-		Router.builder(this).action(ActionConstants.TO_REGISTER).start();
+		Router.builder(this).target(ActionConstants.REGISTER).start();
 	}
 
 

@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.fengjr.sample.constants;
+package com.fengjr.sample.utils;
+
+import com.sunshineprince.router.mapper.Mapper;
 
 /**
  * author : sunny
@@ -22,32 +24,19 @@ package com.fengjr.sample.constants;
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class ActionConstants {
+public class H5UriMapper implements Mapper{
 
 
-	public static final String OPEN_CAMERA = "openCamera";
-
-	public static final String USER_INFO = "userInfo";
-
-	public static final String LOGIN = "login";
-
-	public static final String REGISTER = "register";
-
-	public static final String PRODUCTION_LIST = "proList";
-
-
-	public static final String PRODUCTION_DETAIL = "proDetail";
-
-	public static final String BROWSER = "browser";
-
-	public static final String BUY = "buy";
-
-
-	public static final String TOPUP = "topUp";
+	@Override
+	public String mapUri(String uri) {
 
 
 
 
+
+
+		return null;
+	}
 
 
 

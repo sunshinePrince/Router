@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="production_list">
+        <item>pro 1</item>
+        <item>pro 2</item>
+        <item>pro 3</item>
+        <item>pro 4</item>
+        <item>pro 5</item>
+        <item>pro 6</item>
+        <item>pro 7</item>
+        <item>pro 8</item>
+        <item>pro 9</item>
+        <item>pro 10</item>
+        <item>pro 11</item>
+        <item>pro 12</item>
+    </array>
+</resources>

@@ -22,11 +22,11 @@ package com.sunshineprince.router.mapper;
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class Mapper {
+public interface Mapper {
 
 
 
-
+	String mapUri(String uri);
 
 
 

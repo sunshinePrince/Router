@@ -18,7 +18,6 @@ package com.fengjr.sample.activities.user;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,7 +25,6 @@ import android.widget.Toast;
 import com.fengjr.sample.R;
 import com.fengjr.sample.activities.BaseActivity;
 import com.fengjr.sample.utils.UserUtils;
-import com.sunshineprince.router.Router;
 
 /**
  * author : sunny
@@ -34,34 +32,36 @@ import com.sunshineprince.router.Router;
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class RegisterActivity extends BaseActivity {
+public class TopUpActivity extends BaseActivity{
 
 
-	EditText etUsername;
-	EditText etPassword;
+	EditText et_money;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitle(R.string.register);
-		setContentView(R.layout.activity_regisetr);
-		etUsername = (EditText) findViewById(R.id.et_username);
-		etPassword = (EditText) findViewById(R.id.et_password);
+		setTitle(R.string.topup);
+		setContentView(R.layout.activity_topup);
+		et_money = (EditText) findViewById(R.id.et_money);
 	}
 
 
-	public void onRegisterClick(View view) {
-		String username = etUsername.getText().toString();
-		if (TextUtils.isEmpty(username)) {
-			Toast.makeText(RegisterActivity.this, "plz enter the username", Toast.LENGTH_SHORT).show();
-			return;
+
+	public void onTopUpClick(View view){
+		String money = et_money.getText().toString();
+		int amount = 0;
+		try{
+			amount = Integer.parseInt(money);
+		}catch (Exception e){
 		}
-		String password = etPassword.getText().toString();
-		if (TextUtils.isEmpty(password)) {
-			Toast.makeText(RegisterActivity.this, "plz enter the password", Toast.LENGTH_SHORT).show();
-			return;
+		if(0 == amount){
+			Toast.makeText(TopUpActivity.this, "plz enter top-up amount!", Toast.LENGTH_SHORT).show();
 		}
-		UserUtils.saveUser(RegisterActivity.this, username);
-		Router.builder(this).inStack(false).start();
+		UserUtils.saveMoney(this,amount);
+		finish();
+//		Router.builder(this).inStack(false).start();
 	}
+
+
+
 }

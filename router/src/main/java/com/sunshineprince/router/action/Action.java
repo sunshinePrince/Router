@@ -32,7 +32,7 @@ public class Action {
 
 	public static final String TO = "to";
 
-	public static final String ACTION = "action";
+	public static final String ACTION = "target";
 
 
 

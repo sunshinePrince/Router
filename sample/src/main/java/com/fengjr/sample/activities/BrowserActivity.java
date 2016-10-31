@@ -43,7 +43,7 @@ public class BrowserActivity extends BaseActivity {
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 
-		url = getIntent().getStringExtra("url");
+		url = getIntent().getStringExtra(Router.EXTRA_URL);
 
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.clearCache(true);
@@ -85,7 +85,11 @@ public class BrowserActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			Router.builder(BrowserActivity.this).uri(url).start();
+			if(url.startsWith("fengjr://")){
+				Router.builder(BrowserActivity.this).uri(url).start();
+			}else{
+				webView.loadUrl(url);
+			}
 			return true;
 		}
 

@@ -17,6 +17,7 @@
 package com.sunshineprince.router.interceptor;
 
 import android.content.Context;
+import android.content.Intent;
 
 /**
  * author : sunny
@@ -31,7 +32,6 @@ public abstract class Interceptor {
 	public static final String CLASS = "class";
 
 
-
 	protected Context mContext;
 
 	public Interceptor(Context context) {
@@ -40,9 +40,12 @@ public abstract class Interceptor {
 
 
 	/**
+	 * intercept
 	 *
+	 * @param intent
+	 * @return the result of need to interrupt
 	 */
-	public abstract boolean intercept();
+	public abstract boolean intercept(Intent intent);
 
 
 }

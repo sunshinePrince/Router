@@ -2,6 +2,7 @@ package com.fengjr.sample.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,9 +12,7 @@ import android.widget.Toast;
 import com.fengjr.sample.R;
 import com.fengjr.sample.activities.user.LoginActivity;
 import com.fengjr.sample.activities.user.RegisterActivity;
-import com.fengjr.sample.activities.user.UserInfoActivity;
 import com.fengjr.sample.constants.ActionConstants;
-import com.fengjr.sample.interceptors.user.LoginInterceptor;
 import com.sunshineprince.router.Router;
 
 import java.io.IOException;
@@ -61,14 +60,14 @@ public class MainActivity extends BaseActivity {
 				break;
 			case R.id.item_config_json:
 				try {
-					Router.init(getAssets().open("router.xml"));
+					Router.init(getAssets().open("router_login.xml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
 			case R.id.item_config_json_vip:
 				try {
-					Router.init(getAssets().open("router.xml"));
+					Router.init(getAssets().open("router_login_forward.xml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -79,49 +78,49 @@ public class MainActivity extends BaseActivity {
 
 
 	public void onOpenPhotosClick(View view) {
-		Router.builder(this).action(ActionConstants.OPEN_CAMERA).start();
-		Router.builder(this).intentAction("android.media.action.IMAGE_CAPTURE").start();
+//		Router.builder(this).target(ActionConstants.OPEN_CAMERA).start();
+		Router.builder(this).action(MediaStore.ACTION_IMAGE_CAPTURE).start();
 	}
 
 
 	public void onUserInfoClick(View view) {
-		Router.builder(this).host("com.fengjr.sample.activities.user.UserInfoActivity").interceptor(
-				new LoginInterceptor(this)).start();
-		Router.builder(this).packageName("com.fengjr.sample.activities.user").host(
-				"UserInfoActivity").interceptor(new LoginInterceptor(this)).start();
-		Router.builder(this).action(ActionConstants.TO_USER_INFO).start();
+//		Router.builder(this).host("com.fengjr.sample.activities.user.UserInfoActivity").interceptor(
+//				new LoginInterceptor(this)).start();
+//		Router.builder(this).packageName("com.fengjr.sample.activities.user").host(
+//				"UserInfoActivity").interceptor(new LoginInterceptor(this)).start();
+//		Router.builder(this).packageId("2").host("UserInfoActivity").start();
+		Router.builder(this).target(ActionConstants.USER_INFO).start();
 	}
 
 
 	public void onUserInfoStickyClick(View view) {
-		Router.builder(this).action(ActionConstants.TO_USER_INFO).sticky(true).start();
+		Router.builder(this).target(ActionConstants.USER_INFO).sticky(true).start();
 	}
 
 
 	public void onProListClick(View view) {
-		//		Router.builder(this).packageId("2").host("LoginActivity").data("{name:sunny}").startActivity();
-		Router.builder(this).action(ActionConstants.TO_LOGIN).requestCode(10).start();
+		Router.builder(this).target(ActionConstants.PRODUCTION_LIST).start();
 	}
 
 
 	public void onTradeClick(View view) {
-
-
+		//		Router.builder(this).packageId("2").host("LoginActivity").data("{name:sunny}").startActivity();
+		Router.builder(this).target(ActionConstants.LOGIN).requestCode(10).start();
 	}
 
 
 	public void onStartActivitiesClick(View view) {
 		Intent intent1 = new Intent(this, LoginActivity.class);
 		Intent intent2 = new Intent(this, RegisterActivity.class);
-		Intent intent3 = new Intent(this, UserInfoActivity.class);
+		Intent intent3 = new Intent(this, LoginActivity.class);
 		Intent[] intents = new Intent[]{intent1, intent2, intent3};
 		startActivities(intents);
 	}
 
 
 	public void onH5Click(View view) {
-		//		Router.builder(this).packageId("1").host("BrowserActivity").start();
-		Router.builder(this).host("1$BrowserActivity").start();
+//		Router.builder(this).host("1$BrowserActivity").start();
+		Router.builder(this).target(ActionConstants.BROWSER).start();
 	}
 
 

@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-package com.fengjr.sample.constants;
+package com.fengjr.sample.activities.production;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import com.fengjr.sample.R;
+import com.fengjr.sample.activities.BaseActivity;
 
 /**
  * author : sunny
@@ -22,33 +28,13 @@ package com.fengjr.sample.constants;
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class ActionConstants {
+public class BuyResultActivity extends BaseActivity{
 
 
-	public static final String OPEN_CAMERA = "openCamera";
-
-	public static final String USER_INFO = "userInfo";
-
-	public static final String LOGIN = "login";
-
-	public static final String REGISTER = "register";
-
-	public static final String PRODUCTION_LIST = "proList";
-
-
-	public static final String PRODUCTION_DETAIL = "proDetail";
-
-	public static final String BROWSER = "browser";
-
-	public static final String BUY = "buy";
-
-
-	public static final String TOPUP = "topUp";
-
-
-
-
-
-
-
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setTitle(R.string.buy_result);
+		setContentView(R.layout.activity_buyresult);
+	}
 }

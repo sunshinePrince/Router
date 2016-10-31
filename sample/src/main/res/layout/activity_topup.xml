@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/et_money"
+        android:layout_width="match_parent"
+        android:inputType="numberSigned"
+        android:hint="@string/top_up_amount"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"/>
+
+
+    <Button
+        android:id="@+id/bt_topUP"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/top_up"
+        android:textSize="16sp"
+        android:onClick="onTopUpClick"/>
+
+
+
+</LinearLayout>

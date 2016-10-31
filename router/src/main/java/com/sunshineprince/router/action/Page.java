@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.fengjr.sample.constants;
+package com.sunshineprince.router.action;
+
+import java.util.ArrayList;
 
 /**
  * author : sunny
@@ -22,29 +24,27 @@ package com.fengjr.sample.constants;
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class ActionConstants {
+public class Page {
 
 
-	public static final String OPEN_CAMERA = "openCamera";
-
-	public static final String USER_INFO = "userInfo";
-
-	public static final String LOGIN = "login";
-
-	public static final String REGISTER = "register";
-
-	public static final String PRODUCTION_LIST = "proList";
+	public static final String NAME = "name";
 
 
-	public static final String PRODUCTION_DETAIL = "proDetail";
-
-	public static final String BROWSER = "browser";
-
-	public static final String BUY = "buy";
+	public static final String CLASS = "class";
 
 
-	public static final String TOPUP = "topUp";
+	public static final String FORWARD = "forward";
 
+
+
+	public String name;
+
+
+	public String className;
+
+	public String forward;
+
+	public ArrayList<String> interceptors = new ArrayList<>();
 
 
 
