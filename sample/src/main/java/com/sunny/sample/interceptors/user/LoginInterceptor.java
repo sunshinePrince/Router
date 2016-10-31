@@ -14,23 +14,38 @@
  * limitations under the License.
  */
 
-package com.sunshineprince.router.utils;
+package com.sunny.sample.interceptors.user;
+
+import android.content.Context;
+import android.content.Intent;
+
+import com.sunny.sample.constants.ActionConstants;
+import com.sunny.sample.utils.UserUtils;
+import com.sunshineprince.router.Router;
+import com.sunshineprince.router.interceptor.Interceptor;
 
 /**
- * Created by sunny on 16/7/20.
+ * author : sunny
  * email : zicai346@gmail.com
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class XMLParser {
+
+public class LoginInterceptor extends Interceptor{
 
 
+	public LoginInterceptor(Context context) {
+		super(context);
+	}
 
-
-
-
-
-
+	@Override
+	public boolean intercept(Intent intent) {
+		if (UserUtils.isLogin(mContext)){
+			return false;
+		}
+		Router.builder(mContext).target(ActionConstants.LOGIN).inStack(false).start();
+		return true;
+	}
 
 
 

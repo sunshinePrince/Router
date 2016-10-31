@@ -14,21 +14,36 @@
  * limitations under the License.
  */
 
-package com.sunshineprince.router.utils;
+package com.sunny.sample.constants;
 
 /**
- * Created by sunny on 16/7/20.
+ * author : sunny
  * email : zicai346@gmail.com
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class XMLParser {
+public class ActionConstants {
 
 
+	public static final String OPEN_CAMERA = "openCamera";
+
+	public static final String USER_INFO = "userInfo";
+
+	public static final String LOGIN = "login";
+
+	public static final String REGISTER = "register";
+
+	public static final String PRODUCTION_LIST = "proList";
 
 
+	public static final String PRODUCTION_DETAIL = "proDetail";
+
+	public static final String BROWSER = "browser";
+
+	public static final String BUY = "buy";
 
 
+	public static final String TOPUP = "topUp";
 
 
 

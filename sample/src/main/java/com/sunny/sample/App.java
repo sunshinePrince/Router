@@ -14,26 +14,30 @@
  * limitations under the License.
  */
 
-package com.sunshineprince.router.utils;
+package com.sunny.sample;
+
+import android.app.Application;
+
+import com.sunshineprince.router.Router;
+
+import java.io.IOException;
 
 /**
- * Created by sunny on 16/7/20.
+ * author : sunny
  * email : zicai346@gmail.com
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class XMLParser {
+public class App extends Application{
 
 
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		try {
+			Router.init(getAssets().open("router.xml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

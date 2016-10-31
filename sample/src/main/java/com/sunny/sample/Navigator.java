@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.sunshineprince.router.utils;
+package com.sunny.sample;
 
 /**
- * Created by sunny on 16/7/20.
+ * author : sunny
  * email : zicai346@gmail.com
  * github : https://github.com/sunshinePrince
  * blog : http://mrjoker.wang
  */
-public class XMLParser {
+public class Navigator {
 
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <router
-    package="com.fengjr.sample"
-    scheme="fengjr"
+    package="com.sunny.sample"
+    scheme="sunny"
     version="1">
 
     <!-- packages -->

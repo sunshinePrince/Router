@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.fengjr.sample"
+        applicationId "com.sunny.sample"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
